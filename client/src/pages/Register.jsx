@@ -25,6 +25,7 @@ const Register = () => {
             .then((res) => {
                 console.log(res);
                 toast.success("Registered successfully!", { id: toastId });
+                window.location.replace("/login");
             })
             .catch((err) => {
                 console.log(err);

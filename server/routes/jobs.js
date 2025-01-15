@@ -1,5 +1,6 @@
 const express = require("express");
 const Job = require("../models/Job");
+
 const router = express.Router();
 
 // Get all jobs
@@ -9,6 +10,20 @@ router.get("/", async (req, res) => {
         res.json(jobs);
     } catch (error) {
         res.status(500).json({ error: error.message });
+    }
+});
+
+router.get("/:id", async (req, res) => {
+    console.log("skasjdf");
+    const { id } = req.params;
+
+    console.log(id);
+
+    try {
+        const job = await Job.findOne({ _id: id });
+        res.status(200).send(job);
+    } catch (error) {
+        console.log(error);
     }
 });
 
@@ -29,7 +44,9 @@ router.post("/", async (req, res) => {
 router.post("/apply-job/:id/:jobId", async (req, res) => {
     const { id, jobId } = req.params;
     try {
-        await Job.findByIdAndUpdate(jobId, { $push: { applications: id } });
+        const job = await Job.findOne({ _id: jobId });
+        job.applications.push(id);
+        job.save();
         res.status(200).send("Applied successfully");
     } catch (error) {
         console.log(error);

@@ -25,11 +25,13 @@ const Login = () => {
 
         // if (Object.keys(errors).length === 0) {
         axios
-            .post("http://localhost:4000/login", formData, { withCredentials: true })
+            .post("http://localhost:4000/auth/login", formData, { withCredentials: true })
             .then((res) => {
                 console.log(res);
                 toast.success("Login success!", { id: toastId });
                 localStorage.setItem("userToken", res.data.token);
+                localStorage.setItem("userId", res.data.user._id);
+                localStorage.setItem("user", JSON.stringify(res.data.user));
                 window.location.replace("/");
                 setErrors({});
             })
