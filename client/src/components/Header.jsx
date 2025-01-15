@@ -1,7 +1,26 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const Header = () => {
     const user = JSON.parse(localStorage.getItem("user"));
+    const [jobs, setJobs] = useState([]);
+
+    const [querry, setQuerry] = useState("");
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:4000/jobs")
+            .then((res) => {
+                console.log(res);
+                setJobs(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
+    const filteredJobs = jobs.filter((job) => job.title.toLowerCase().includes(querry.toLowerCase()));
+
     return (
         <div>
             <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -58,12 +77,41 @@ const Header = () => {
                             </li>
                         </ul>
                         <div className=" w-100  d-flex justify-content-between px-3">
-                            <button onClick={()=>window.location.replace('/job-post')} className=" btn btn-light">
+                            <button onClick={() => window.location.replace("/job-post")} className=" btn btn-light">
                                 Post Job
                             </button>
 
+                            <div className="w-75 h-50 position-relative">
+                                <input
+                                    type="text"
+                                    className=" form-control h-25 w-50"
+                                    value={querry}
+                                    onChange={(e) => setQuerry(e.target.value)}
+                                    name=""
+                                    placeholder="Search jobs"
+                                    id=""
+                                />
+
+                                {querry && (
+                                    <div className=" position-absolute z-1 bg-light w-50 p-2 rounded">
+                                        {filteredJobs.map((job) => {
+                                            return (
+                                                <div
+                                                    onClick={() => window.location.replace(`/job/${job._id}`)}
+                                                    key={job._id}
+                                                >
+                                                    {job.title}
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </div>
+
                             {user ? (
-                                <h5 style={{cursor:"pointer"}} onClick={()=>window.location.replace('/profile')}>{user.name}</h5>
+                                <h5 style={{ cursor: "pointer" }} onClick={() => window.location.replace("/profile")}>
+                                    {user.name}
+                                </h5>
                             ) : (
                                 <button onClick={() => window.location.replace("/login")}>Login</button>
                             )}

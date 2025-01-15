@@ -23,17 +23,7 @@ const JobList = () => {
             });
     }, []);
 
-    const handleApply = (jobId) => {
-        axios
-            .post(`http://localhost:4000/jobs/apply-job/${userId}/${jobId}`)
-            .then((res) => {
-                console.log(res);
-                toast.success("Applied successfully!");
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
+    
 
     return (
         <div className=" m-4">
