@@ -57,7 +57,11 @@ const Header = () => {
                                 </ul>
                             </li>
                         </ul>
-                        <div className=" w-100  text-end px-3">
+                        <div className=" w-100  d-flex justify-content-between px-3">
+                            <button onClick={()=>window.location.replace('/job-post')} className=" btn btn-light">
+                                Post Job
+                            </button>
+
                             {user ? (
                                 <h5 style={{cursor:"pointer"}} onClick={()=>window.location.replace('/profile')}>{user.name}</h5>
                             ) : (
