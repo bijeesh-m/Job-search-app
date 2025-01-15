@@ -8,6 +8,7 @@ import Register from "./pages/Register";
 import { Toaster } from "react-hot-toast";
 import JobDetails from "./pages/JobDetails";
 import Profile from "./pages/Profile";
+import JobPost from "./components/JobPost";
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                 <Route path="/" element={<JobList />} />
                 <Route path="/job/:id" element={<JobDetails />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/job-post" element={<JobPost />} />
             </Routes>
             {/* <Header />
             <JobList /> */}
